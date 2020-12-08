@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Form Input Generator</title>
+
+  <style>
+    html, body {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 14px;
+      margin: 0;
+      min-height: 180px;
+      padding: 0;
+      width: 560px;
+    }
+
+    img.remove-icon {
+      height: 20px;
+      width: 20px;
+      padding: 10px;
+      margin-top: 6px;
+      margin-right: -10px;
+      cursor: pointer;
+    }
+
+    img.remove-icon:hover {
+      opacity: 0.4; 
+    }
+
+    img.pin-icon {
+      height: 20px;
+      width: 20px;
+      padding: 10px;
+      margin-top: 6px;
+      cursor: pointer;
+      opacity: 0.25; 
+    }
+
+    img.pin-icon:hover {
+      opacity: 1.0;  
+    }
+
+    img.pin-selected {
+      opacity: 1.0; 
+    }
+
+    .modal-header {
+      padding: 12px 22px;
+    }
+
+    .modal-content {
+      padding: 0 22px;
+    }
+
+    .modal-icons {
+      border: 0.5px solid #dadada;
+    }
+
+    .flex-container {
+      display: flex;
+      justify-content: space-between;
+      margin-left: -2px;
+    }
+
+    .form-info {
+      padding: 0 !important; 
+    }
+
+    .flex {
+      opacity: 1;
+      transition: opacity 0.2s ease-in-out;
+    }
+
+    .flex:hover {
+      opacity: 0.4px;
+    }
+
+    .flex {
+      color: #2f5876;
+    }
+
+    .float-right {
+      float: right; 
+    }
+
+    .float-left {
+      float: left; 
+      margin-left: 10px;
+    }
+
+    .form-input {
+      margin: .45rem 0 .20rem;
+      padding: .815rem 0 .815rem 1rem;
+      background-color: #f5f5f5;
+      border: 0;
+      font-size: 14px;
+      border-bottom: 2px solid transparent;   
+    }    
+     
+    button.border {
+      border: 1px solid #c3c3c3 !important;
+      transition: background 300ms, color 300ms, box-shadow 300ms;
+      background: #F7F7F7;
+      font-size: 15px;
+      -webkit-appearance: none;
+      box-sizing: border-box;
+      display: inline-block;
+      vertical-align: middle;
+      text-decoration: none;
+      padding: 8px 10px;
+      cursor: pointer;
+      border-width: 0;
+      outline: none;
+      border-radius: 2px;
+    }
+
+    button.border:hover {
+      border-color: #b1b1b1;
+      color: #222;
+      background-color: #f9f9f9;
+      box-shadow:  0px 3px 3px 0px rgba(50, 50, 50, 0.3);
+    }
+
+    button.border:active {
+      border-color: #212;
+      background-color: #d1d0cf;
+    }
+
+    ul {
+      padding-left: 0px; 
+      clear: both;
+    }
+
+    li {
+      list-style: none; 
+    }
+
+    #show-form-data h3 {
+      margin-top: 0px;
+    }
+
+    #save-input-div {
+      width: 100%;
+      height: 100%; 
+      text-align: left;
+      margin-bottom: 10px;
+    }
+
+    #invalidData {
+     /* margin-left: 5px; */ 
+    }
+
+    .no-right-padding {
+      padding-right: 0 !important;  
+    }
+
+    .margin-top-10 {
+      /* margin-top: 15px; */ 
+    }
+
+    .display-none {
+      display: none;  
+    }
+
+    .switch {
+      position: relative; 
+      display: inline-block;
+      width: 50px;
+      height: 30px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: 0.4s;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 22px;
+      width: 22px;
+      left: 0px;
+      bottom: 4px;
+      background-color: white;
+      -webkit-transform: 0.4s;
+      transition: 0.4s;
+    }
+
+    input:checked + .slider {
+      background-color: #f90808;
+      height: 30px;
+    }
+
+    input:focus + .slider {
+      box-shadow: 0 0 1px #f90808;
+    }
+
+    input:checked + .slider:before {
+      -webkit-transform: translateX(26px);
+      transform: translateX(26px);
+    }
+
+    .slider.round {
+      border-radius: 34px;
+    }
+
+    .slider.round:before {
+      border-radius: 50%;
+    }
+    
+    .input-title {
+      margin-top: 10px;
+      color: #222;
+    }
+
+    .input-name {
+      padding: 17px 0;
+      color: #222;
+    }
+
+    .flex-left {
+      flex: 0 0 25%;
+    }
+
+    .flex-middle {
+      flex: 0 0 22%;
+    }
+
+    .flex-right {
+      flex: 0 0 35%;
+    }
+
+    .middle-text {
+      text-align: center;
+    }
+  </style>
+
+  <script src="popup.js"></script>
+
+</head>
+<body>
+ 
+  <div class="modal-icons modal-header">
+    <div class="flex-container">
+      <div class="flex">
+        <label class="switch">
+          <input type="checkbox" id="switchCheckbox">
+          <span class="slider round"></span>
+        </label>
+      </div>
+
+      <div id="resetData" class="flex display-none">
+        <button class="border" id="resetBtn">
+          reset
+        </button>
+      </div>
+
+      <div class="flex">
+        <button id="invalidData" class="border">
+         invalid input 
+        </button>
+      </div>
+
+      <div class="flex">
+        <button id="validData" class="border">
+          valid input
+        </button>
+      </div>
+    </div>
+  </div>
+ 
+  <div class="modal-content">
+    <div id="show-form-data"></div>
+  </div>
+  
+</body>
+</html>
