@@ -543,8 +543,9 @@ const generateSingleInput = (
       : inputFunctionGenerator[inputType][`${type}`]();
 
   if (inputValue && inputValue !== "") {
-    userInput.setAttribute("value", inputValue);
-    inputValue && inputValue !== "" && eventTrigger(userInput);
+    // userInput.setAttribute("value", inputValue);
+    // inputValue && inputValue !== "" && eventTrigger(userInput);
+    simulateTyping(userInput, inputValue);
   }
 
   userInput.setAttribute("placeholder", "");
@@ -552,6 +553,20 @@ const generateSingleInput = (
 
   return inputValue;
 };
+
+
+function simulateTyping(element, text) {
+  element.value = ""; // Clear existing value
+  for (let char of text) {
+    let eventOptions = { key: char, char, keyCode: char.charCodeAt(0), which: char.charCodeAt(0), bubbles: true };
+    element.dispatchEvent(new KeyboardEvent('keydown', eventOptions));
+    element.value += char;
+    element.dispatchEvent(new KeyboardEvent('keypress', eventOptions));
+    element.dispatchEvent(new KeyboardEvent('keyup', eventOptions));
+    element.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+  element.dispatchEvent(new Event('change', { bubbles: true }));
+}
 
 const generateValidFormData = (localData = {}) => {
   let input = getDomElements();
@@ -598,9 +613,7 @@ const generateValidFormData = (localData = {}) => {
       value: inputValue
     };
   }
-
   saveDataInLocalStorage(response);
-
   return response;
 };
 
